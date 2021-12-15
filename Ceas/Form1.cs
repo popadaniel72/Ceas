@@ -22,6 +22,20 @@ namespace Ceas
         Pen albastru = new Pen(Color.Blue, 1);
         Pen galben = new Pen(Color.Yellow, 1);
         SolidBrush culoareCifre ;
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            dt = DateTime.Now;
+            h = dt.Hour;
+            if (h >= 12) h -= 12;
+            m = dt.Minute;
+            s = dt.Second;
+            uora = h * 30 + m / 2.0;
+            umin = m * 6 + s / 10;
+            usec = s * 6;
+            this.Invalidate();
+        }
+
         private void Form1_Resize(object sender, EventArgs e)
         {
             xc = this.Width / 2;
@@ -33,8 +47,12 @@ namespace Ceas
             lora = lmin - dx;
             dt = DateTime.Now;
             h = dt.Hour;
+            if (h >= 12) h -= 12;
             m = dt.Minute;
             s = dt.Second;
+            uora = h * 30 + m/2.0;
+            umin = m*6 + s/10;
+            usec = s * 6;
             this.Invalidate();
 
         }
@@ -71,6 +89,10 @@ namespace Ceas
             {
                 e.Graphics.DrawString(i.ToString(), fontCifre, culoareCifre, (float)(xc -dx + razaCifre * Math.Cos(( 90 - 30 * i) * Math.PI / 180)), (float)(yc -dx- razaCifre * Math.Sin(( 90 - 30 * i) * Math.PI / 180)), formatCifre);
             }
+            // pun ora
+            dVector(xc, yc, 90-(int)uora, lora, albastru, e);
+            dVector(xc, yc, 90-(int)umin, lmin, verde, e);
+            dVector(xc, yc, 90 - (int)usec, lsec, rosu, e);
         }
 
         double rap = 0.7;
@@ -89,8 +111,13 @@ namespace Ceas
             lora = lmin - dx;
             dt = DateTime.Now;
             h = dt.Hour;
+            if (h >= 12) h -= 12;
             m = dt.Minute;
             s = dt.Second;
+            uora = h * 30 + m / 2.0;
+            umin = m * 6 + s / 10;
+            usec = s * 6;
+
             // tip cifre
             fontCifre = new Font("Arial", 16);
             formatCifre = new StringFormat();
